@@ -32,19 +32,22 @@ router.post('/login', async (req, res) => {
 
   try {
     const user = await prisma.user.findUnique({ where: { email } });
+
     if (!user) {
-      return res.status(404).json({ message: 'User not found.' });
+      return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    const isMatch = await comparePassword(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid credentials.' });
+    const isPasswordValid = await comparePassword(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Invalid email or password' });
     }
 
     const token = generateToken(user.id);
-    res.json({ token, user: { id: user.id, email: user.email } });
+    res.status(200).json({ token, user: { id: user.id, email: user.email } });
   } catch (error) {
-    res.status(500).json({ error: 'Server error.' });
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 

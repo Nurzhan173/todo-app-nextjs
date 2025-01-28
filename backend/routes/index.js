@@ -6,11 +6,15 @@ require('dotenv').config();
 const authRoutes = require('./auth');
 const taskRoutes = require('./tasks');
 
-const app = express();
 
+const app = express();
+app.use(cors({
+  origin: 'http://localhost:3000', // Your frontend origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true, // Enable cookies or Authorization headers
+}));
 // Middleware
 app.use(bodyParser.json());
-app.use(cors());
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -20,5 +24,5 @@ app.use('/api/tasks', taskRoutes);
 app.get('/health', (req, res) => res.send('Backend is running!'));
 
 // Start Server
-const PORT = process.env.PORT || 6000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

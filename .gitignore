@@ -1,0 +1,14 @@
+# Ignore .idea folder
+.idea/
+
+# Ignore build files
+frontend/.next/
+backend/dist/
+
+# Ignore environment files
+frontend/.env.local
+backend/.env
+
+# Ignore other unwanted files
+.DS_Store
+*.log
