@@ -4,8 +4,19 @@ import { useQuery } from "@tanstack/react-query";
 import { getTasks, Task } from "@/app/api/tasks/getTasks";
 import TaskList from "@/components/TaskList";
 import TaskForm from "@/components/TaskForm";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function TasksPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/login");
+    }
+  }, [router]);
+
   const { data: tasks, isLoading, error } = useQuery<Task[]>({
     queryKey: ["tasks"],
     queryFn: getTasks,
