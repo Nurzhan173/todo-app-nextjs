@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:6000/api
+    networks:
+      - app_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "6000:6000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://todo_user:password123@db:5432/todo_app
+      - JWT_SECRET=123
+      - JWT_EXPIRES_IN=5h
+    networks:
+      - app_network
+
+  db:
+    image: postgres:15
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: todo_user
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: todo_app
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+volumes:
+  pg_data:
+
+networks:
+  app_network:
