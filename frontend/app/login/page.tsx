@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { login } from "@/app/api/auth/login";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { login } from '@/app/api/auth/login';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -17,11 +17,11 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       await login(email, password);
-      toast.success("Login successful!");
-      router.push("/tasks");
+      toast.success('Login successful!');
+      router.push('/tasks');
     } catch (error) {
       console.error(error);
-      toast.error("Invalid email or password.");
+      toast.error('Invalid email or password.');
     } finally {
       setIsLoading(false);
     }
@@ -50,11 +50,11 @@ export default function LoginPage() {
           disabled={isLoading}
           className="bg-blue-500 text-white p-2 rounded"
         >
-          {isLoading ? "Logging in..." : "Login"}
+          {isLoading ? 'Logging in...' : 'Login'}
         </button>
       </form>
       <p className="mt-4">
-        Don’t have an account?{" "}
+        Don’t have an account?{' '}
         <a href="/register" className="text-blue-500 underline">
           Register here
         </a>

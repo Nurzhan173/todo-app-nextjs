@@ -1,19 +1,16 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
   const router = useRouter();
-
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     if (token) {
-      // If the user is authenticated, redirect to the tasks page
-      router.push("/tasks");
+      router.push('/tasks');
     } else {
-      // If the user is not authenticated, redirect to the login page
-      router.push("/login");
+      router.push('/login');
     }
   }, [router]);
 

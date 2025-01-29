@@ -1,32 +1,32 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { register } from "@/app/api/auth/register";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { register } from '@/app/api/auth/register';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      toast.error("Passwords do not match.");
+      toast.error('Passwords do not match.');
       return;
     }
     setIsLoading(true);
     try {
       await register(email, password);
-      toast.success("Registration successful! Please log in.");
-      router.push("/login");
+      toast.success('Registration successful! Please log in.');
+      router.push('/login');
     } catch (error) {
       console.error(error);
-      toast.error("Failed to register. Try again.");
+      toast.error('Failed to register. Try again.');
     } finally {
       setIsLoading(false);
     }
@@ -62,11 +62,11 @@ export default function RegisterPage() {
           disabled={isLoading}
           className="bg-green-500 text-white p-2 rounded"
         >
-          {isLoading ? "Registering..." : "Register"}
+          {isLoading ? 'Registering...' : 'Register'}
         </button>
       </form>
       <p className="mt-4">
-        Already have an account?{" "}
+        Already have an account?{' '}
         <a href="/login" className="text-blue-500 underline">
           Login here
         </a>

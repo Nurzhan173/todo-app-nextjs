@@ -1,24 +1,27 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useAddTask } from "@/hooks/useAddTask";
+import { useState } from 'react';
+import { useAddTask } from '@/hooks/useAddTask';
 
 export default function TaskForm() {
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState('');
   const addTaskMutation = useAddTask();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) {
-      alert("Task title cannot be empty.");
+      alert('Task title cannot be empty.');
       return;
     }
     addTaskMutation.mutate(title);
-    setTitle("");
+    setTitle('');
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center gap-4 bg-white p-4 rounded-lg shadow-md">
+    <form
+      onSubmit={handleSubmit}
+      className="flex items-center gap-4 bg-white p-4 rounded-lg shadow-md"
+    >
       <input
         type="text"
         placeholder="Enter task title..."
@@ -29,11 +32,13 @@ export default function TaskForm() {
       <button
         type="submit"
         className={`px-4 py-2 rounded-md text-white font-semibold ${
-          addTaskMutation.isPending ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
+          addTaskMutation.isPending
+            ? 'bg-gray-400 cursor-not-allowed'
+            : 'bg-blue-500 hover:bg-blue-600'
         }`}
         disabled={addTaskMutation.isPending}
       >
-        {addTaskMutation.isPending ? "Adding..." : "Add Task"}
+        {addTaskMutation.isPending ? 'Adding...' : 'Add Task'}
       </button>
     </form>
   );

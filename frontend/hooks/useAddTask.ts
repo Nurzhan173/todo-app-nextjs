@@ -1,5 +1,5 @@
-import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {createTask} from "@/app/api/tasks/createTask";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createTask } from '@/app/api/tasks/createTask';
 
 export function useAddTask() {
   const queryClient = useQueryClient();
@@ -8,7 +8,7 @@ export function useAddTask() {
     mutationFn: createTask,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["tasks"],
+        queryKey: ['tasks'],
       });
     },
   });
