@@ -1,23 +1,27 @@
-# Use official Node.js image
+# Use Node.js image
 FROM node:20-alpine
 
-# Set the working directory inside the container
+# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if exists) before installing dependencies
+# Copy package.json and install dependencies
 COPY package.json ./
-
-# Install dependencies
 RUN npm install
 
-# Copy the rest of the application (routes, controllers, Prisma, etc.)
+# Ensure required packages are installed
+RUN npm install cors body-parser
+
+# Copy the rest of the application
 COPY . .
 
-# Ensure Prisma Client is generated
-RUN if [ -d "prisma" ]; then npx prisma generate; fi
+# Generate Prisma client
+RUN npx prisma generate
+
+# Make entrypoint script executable
+RUN chmod +x docker-entrypoint.sh
 
 # Expose backend port
-EXPOSE 6000
+EXPOSE 8000
 
-# Start the server
-CMD ["npm", "run", "start"]
+# Run entrypoint script
+CMD ["sh", "./docker-entrypoint.sh"]

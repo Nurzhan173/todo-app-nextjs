@@ -8,9 +8,10 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - backend
+      backend:
+        condition: service_started
     environment:
-      - NEXT_PUBLIC_API_URL=http://backend:6000/api
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api  # Use localhost for browser requests
     networks:
       - app_network
 
@@ -19,9 +20,10 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "6000:6000"
+      - "8000:8000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy  # Ensures DB is fully ready before backend starts
     environment:
       - DATABASE_URL=postgresql://todo_user:password123@db:5432/todo_app
       - JWT_SECRET=123
@@ -42,9 +44,15 @@ services:
       - pg_data:/var/lib/postgresql/data
     networks:
       - app_network
+    healthcheck:  # Ensure the database is ready before backend starts
+      test: ["CMD", "pg_isready", "-U", "todo_user"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
 
 volumes:
   pg_data:
 
 networks:
   app_network:
+    driver: bridge

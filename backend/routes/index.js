@@ -16,9 +16,9 @@ const app = express();
 // CORS Middleware
 app.use(
   cors({
-    origin: "http://localhost:3000", // Your frontend origin
+    origin: ["http://localhost:3000", "http://frontend:3000"],
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, // Enable cookies or Authorization headers
+    credentials: true,
   })
 );
 
@@ -33,9 +33,11 @@ app.use("/api/tasks", taskRoutes);
 app.get("/health", (req, res) => res.send("Backend is running!"));
 
 // Define Port
-const PORT = process.env.PORT || 6000;
+const PORT = process.env.PORT || 8000;
 
 // Start Server
 app.listen(PORT, () =>
   console.log(`✅ Server running on http://localhost:${PORT}`)
 );
+
+module.exports = app;
